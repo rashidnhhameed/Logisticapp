@@ -17,6 +17,7 @@ import { RFQDetails } from './components/RFQDetails';
 import { PurchaseOrderDashboard } from './components/PurchaseOrderDashboard';
 import { ASNDashboard } from './components/ASNDashboard';
 import { WorkflowDashboard } from './components/WorkflowDashboard';
+import { MaterialReadinessDashboard } from './components/MaterialReadinessDashboard';
 import { NotificationCenter } from './components/NotificationCenter';
 import { LogOut, User, Home } from 'lucide-react';
 
@@ -185,6 +186,8 @@ function App() {
             onDeletePO={deletePO}
             onUpdateMaterialReadiness={updateMaterialReadiness}
           />
+        ) : currentView === 'material-readiness' ? (
+          <MaterialReadinessDashboard />
         ) : currentView === 'rfq' ? (
           selectedRFQ ? (
             <RFQDetails

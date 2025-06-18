@@ -8,6 +8,7 @@ import rfqRoutes from './routes/rfq.js';
 import asnRoutes from './routes/asn.js';
 import shipmentRoutes from './routes/shipments.js';
 import notificationRoutes from './routes/notifications.js';
+import materialReadinessRoutes from './routes/materialReadiness.js';
 import { authenticateToken } from './middleware/auth.js';
 
 dotenv.config();
@@ -34,6 +35,7 @@ app.use('/api/rfq', authenticateToken, rfqRoutes);
 app.use('/api/asn', authenticateToken, asnRoutes);
 app.use('/api/shipments', authenticateToken, shipmentRoutes);
 app.use('/api/notifications', authenticateToken, notificationRoutes);
+app.use('/api/material-readiness', authenticateToken, materialReadinessRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

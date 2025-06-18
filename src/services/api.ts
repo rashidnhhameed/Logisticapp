@@ -83,4 +83,13 @@ export const notificationAPI = {
   delete: (id: string) => api.delete(`/notifications/${id}`),
 };
 
+// Material Readiness API
+export const materialReadinessAPI = {
+  getAll: (params?: any) => api.get('/material-readiness', { params }),
+  getStats: () => api.get('/material-readiness/stats'),
+  updateReadiness: (id: string, data: any) => api.put(`/material-readiness/${id}/readiness`, data),
+  bulkUpdate: (data: any) => api.put('/material-readiness/bulk-update', data),
+  sendReminders: () => api.post('/material-readiness/send-reminders'),
+};
+
 export default api;
