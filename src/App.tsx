@@ -18,10 +18,11 @@ import { PurchaseOrderDashboard } from './components/PurchaseOrderDashboard';
 import { ASNDashboard } from './components/ASNDashboard';
 import { WorkflowDashboard } from './components/WorkflowDashboard';
 import { MaterialReadinessDashboard } from './components/MaterialReadinessDashboard';
+import { UserManagementDashboard } from './components/UserManagement/UserManagementDashboard';
 import { NotificationCenter } from './components/NotificationCenter';
 import { LogOut, User, Home } from 'lucide-react';
 
-type View = 'workflow' | 'purchase-orders' | 'material-readiness' | 'rfq' | 'asn' | 'shipments';
+type View = 'workflow' | 'purchase-orders' | 'material-readiness' | 'rfq' | 'asn' | 'shipments' | 'user-management';
 
 function App() {
   const { user, isAuthenticated, loading: authLoading, login, logout } = useAuth();
@@ -105,6 +106,7 @@ function App() {
       case 'rfq': return 'RFQ Management';
       case 'asn': return 'Advance Shipment Notice';
       case 'shipments': return 'Shipment Tracking';
+      case 'user-management': return 'User Management';
       default: return 'Dashboard';
     }
   };
@@ -227,6 +229,8 @@ function App() {
               onDeleteShipment={deleteShipment}
             />
           )
+        ) : currentView === 'user-management' ? (
+          <UserManagementDashboard />
         ) : (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">{getViewTitle()}</h2>

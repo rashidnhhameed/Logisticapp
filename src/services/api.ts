@@ -40,6 +40,27 @@ export const authAPI = {
     api.get('/auth/me'),
 };
 
+// User Management API
+export const userAPI = {
+  getAll: (params?: any) => api.get('/users', { params }),
+  create: (data: any) => api.post('/users', data),
+  update: (id: string, data: any) => api.put(`/users/${id}`, data),
+  delete: (id: string) => api.delete(`/users/${id}`),
+  resetPassword: (id: string, newPassword: string) => 
+    api.put(`/users/${id}/reset-password`, { newPassword }),
+  getSessions: (id: string) => api.get(`/users/${id}/sessions`),
+  deactivateSessions: (id: string) => api.post(`/users/${id}/deactivate-sessions`),
+};
+
+// Role Management API
+export const roleAPI = {
+  getAll: () => api.get('/roles'),
+  create: (data: any) => api.post('/roles', data),
+  update: (id: string, data: any) => api.put(`/roles/${id}`, data),
+  delete: (id: string) => api.delete(`/roles/${id}`),
+  getModules: () => api.get('/roles/modules'),
+};
+
 // Purchase Orders API
 export const purchaseOrderAPI = {
   getAll: () => api.get('/purchase-orders'),

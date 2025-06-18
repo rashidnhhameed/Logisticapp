@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Package, Truck, CheckCircle, Clock, AlertCircle, TrendingUp } from 'lucide-react';
+import { FileText, Package, Truck, CheckCircle, Clock, AlertCircle, TrendingUp, Users } from 'lucide-react';
 
 interface WorkflowStep {
   id: string;
@@ -55,6 +55,14 @@ export function WorkflowDashboard({ onNavigate }: WorkflowDashboardProps) {
       status: 'pending',
       icon: <Package className="h-6 w-6" />,
       count: 1
+    },
+    {
+      id: 'user-management',
+      title: 'User Management',
+      description: 'Manage users, roles, and permissions',
+      status: 'pending',
+      icon: <Users className="h-6 w-6" />,
+      count: 5
     }
   ];
 
@@ -97,13 +105,14 @@ export function WorkflowDashboard({ onNavigate }: WorkflowDashboardProps) {
 
       {/* Updated Workflow Description */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-        <h2 className="text-lg font-semibold text-blue-900 mb-3">Updated Workflow Process</h2>
+        <h2 className="text-lg font-semibold text-blue-900 mb-3">Complete Workflow Process</h2>
         <div className="text-sm text-blue-800 space-y-2">
           <p><strong>1. Purchase Orders:</strong> Create and manage purchase orders with suppliers</p>
           <p><strong>2. Material Readiness:</strong> Suppliers update when materials are ready</p>
           <p><strong>3. RFQ Management:</strong> Create RFQs and get quotes from forwarders</p>
           <p><strong>4. Shipment Tracking:</strong> Track shipments from pickup to delivery</p>
           <p><strong>5. ASN Creation:</strong> Create Advance Shipment Notice when shipment is near arrival time</p>
+          <p><strong>6. User Management:</strong> Manage users, roles, and module-based permissions</p>
         </div>
       </div>
 
@@ -134,7 +143,7 @@ export function WorkflowDashboard({ onNavigate }: WorkflowDashboardProps) {
             </button>
 
             {/* Connector Line */}
-            {index < workflowSteps.length - 1 && (
+            {index < workflowSteps.length - 1 && index % 3 !== 2 && (
               <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gray-300 transform -translate-y-1/2 z-10">
                 <div className="absolute right-0 top-1/2 transform translate-x-1 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
               </div>
@@ -184,11 +193,11 @@ export function WorkflowDashboard({ onNavigate }: WorkflowDashboardProps) {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center">
             <div className="p-2 bg-purple-50 rounded-lg">
-              <Package className="h-6 w-6 text-purple-600" />
+              <Users className="h-6 w-6 text-purple-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Pending ASNs</p>
-              <p className="text-2xl font-bold text-gray-900">1</p>
+              <p className="text-sm font-medium text-gray-600">Active Users</p>
+              <p className="text-2xl font-bold text-gray-900">5</p>
             </div>
           </div>
         </div>
