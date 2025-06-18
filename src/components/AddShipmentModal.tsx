@@ -40,7 +40,7 @@ export function AddShipmentModal({ isOpen, onClose, onAdd }: AddShipmentModalPro
   const [showForwarderModal, setShowForwarderModal] = useState(false);
   const [showSupplierModal, setShowSupplierModal] = useState(false);
 
-  // Mock data for forwarders and suppliers (in real app, this would come from a store/API)
+  // Initialize with some default data and maintain state properly
   const [forwarders, setForwarders] = useState<Forwarder[]>([
     {
       id: '1',
@@ -66,13 +66,17 @@ export function AddShipmentModal({ isOpen, onClose, onAdd }: AddShipmentModalPro
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAdd({
+    
+    const shipmentData = {
       ...formData,
       confirmedRateAED: formData.confirmedRateAED ? parseFloat(formData.confirmedRateAED) : undefined,
       forwarder: selectedForwarder || undefined,
       supplier: selectedSupplier || undefined,
       documents: documents.length > 0 ? documents : undefined
-    });
+    };
+    
+    console.log('Submitting shipment data:', shipmentData); // Debug log
+    onAdd(shipmentData);
     
     // Reset form
     setFormData({
@@ -126,8 +130,10 @@ export function AddShipmentModal({ isOpen, onClose, onAdd }: AddShipmentModalPro
       ...forwarderData,
       id: Date.now().toString()
     };
-    setForwarders([...forwarders, newForwarder]);
+    console.log('Adding new forwarder:', newForwarder); // Debug log
+    setForwarders(prev => [...prev, newForwarder]);
     setSelectedForwarder(newForwarder);
+    setShowForwarderModal(false);
   };
 
   const addSupplier = (supplierData: Omit<Supplier, 'id'>) => {
@@ -135,8 +141,22 @@ export function AddShipmentModal({ isOpen, onClose, onAdd }: AddShipmentModalPro
       ...supplierData,
       id: Date.now().toString()
     };
-    setSuppliers([...suppliers, newSupplier]);
+    console.log('Adding new supplier:', newSupplier); // Debug log
+    setSuppliers(prev => [...prev, newSupplier]);
     setSelectedSupplier(newSupplier);
+    setShowSupplierModal(false);
+  };
+
+  const handleForwarderSelect = (forwarder: Forwarder) => {
+    console.log('Selecting forwarder:', forwarder); // Debug log
+    setSelectedForwarder(forwarder);
+    setShowForwarderModal(false);
+  };
+
+  const handleSupplierSelect = (supplier: Supplier) => {
+    console.log('Selecting supplier:', supplier); // Debug log
+    setSelectedSupplier(supplier);
+    setShowSupplierModal(false);
   };
 
   if (!isOpen) return null;
@@ -401,7 +421,7 @@ export function AddShipmentModal({ isOpen, onClose, onAdd }: AddShipmentModalPro
         onClose={() => setShowForwarderModal(false)}
         onAdd={addForwarder}
         forwarders={forwarders}
-        onSelect={setSelectedForwarder}
+        onSelect={handleForwarderSelect}
       />
 
       <SupplierModal
@@ -409,7 +429,7 @@ export function AddShipmentModal({ isOpen, onClose, onAdd }: AddShipmentModalPro
         onClose={() => setShowSupplierModal(false)}
         onAdd={addSupplier}
         suppliers={suppliers}
-        onSelect={setSelectedSupplier}
+        onSelect={handleSupplierSelect}
       />
     </>
   );

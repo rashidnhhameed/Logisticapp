@@ -21,7 +21,7 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
   const [selectedForwarder, setSelectedForwarder] = useState<Forwarder | null>(null);
   const [showForwarderModal, setShowForwarderModal] = useState(false);
 
-  // Mock forwarders data (in real app, this would come from a store/API)
+  // Initialize with some default data and maintain state properly
   const [forwarders, setForwarders] = useState<Forwarder[]>([
     {
       id: '1',
@@ -48,15 +48,18 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
       return;
     }
 
-    onAdd({
+    const quoteData = {
       forwarderId: selectedForwarder.id,
       forwarder: selectedForwarder,
       priceAED: parseFloat(formData.priceAED),
       transitTime: formData.transitTime,
       validUntil: formData.validUntil,
       notes: formData.notes || undefined,
-      status: 'submitted'
-    });
+      status: 'submitted' as const
+    };
+
+    console.log('Submitting quote data:', quoteData); // Debug log
+    onAdd(quoteData);
     
     // Reset form
     setFormData({
@@ -74,8 +77,16 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
       ...forwarderData,
       id: Date.now().toString()
     };
-    setForwarders([...forwarders, newForwarder]);
+    console.log('Adding new forwarder:', newForwarder); // Debug log
+    setForwarders(prev => [...prev, newForwarder]);
     setSelectedForwarder(newForwarder);
+    setShowForwarderModal(false);
+  };
+
+  const handleForwarderSelect = (forwarder: Forwarder) => {
+    console.log('Selecting forwarder:', forwarder); // Debug log
+    setSelectedForwarder(forwarder);
+    setShowForwarderModal(false);
   };
 
   if (!isOpen) return null;
@@ -219,7 +230,7 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
         onClose={() => setShowForwarderModal(false)}
         onAdd={addForwarder}
         forwarders={forwarders}
-        onSelect={setSelectedForwarder}
+        onSelect={handleForwarderSelect}
       />
     </>
   );
