@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { X, Building2, Mail, Phone, User, MapPin } from 'lucide-react';
 import { Supplier } from '../types/shipment';
+import { useSuppliers } from '../hooks/useSuppliers';
 
 interface SupplierModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (supplier: Omit<Supplier, 'id'>) => void;
-  suppliers: Supplier[];
   onSelect: (supplier: Supplier) => void;
 }
 
-export function SupplierModal({ isOpen, onClose, onAdd, suppliers, onSelect }: SupplierModalProps) {
+export function SupplierModal({ isOpen, onClose, onSelect }: SupplierModalProps) {
+  const { suppliers, addSupplier } = useSuppliers();
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -39,10 +39,14 @@ export function SupplierModal({ isOpen, onClose, onAdd, suppliers, onSelect }: S
       return;
     }
     
-    onAdd(formData);
+    const newSupplier = addSupplier(formData);
+    onSelect(newSupplier);
+    
+    // Reset form
     setFormData({ name: '', email: '', phone: '', company: '', address: '', contactPerson: '' });
     setErrors({});
     setShowAddForm(false);
+    onClose();
   };
 
   const handleSelect = (supplier: Supplier) => {

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { X, User, Building, Mail, Phone, MapPin } from 'lucide-react';
 import { Forwarder } from '../types/shipment';
+import { useForwarders } from '../hooks/useForwarders';
 
 interface ForwarderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (forwarder: Omit<Forwarder, 'id'>) => void;
-  forwarders: Forwarder[];
   onSelect: (forwarder: Forwarder) => void;
 }
 
-export function ForwarderModal({ isOpen, onClose, onAdd, forwarders, onSelect }: ForwarderModalProps) {
+export function ForwarderModal({ isOpen, onClose, onSelect }: ForwarderModalProps) {
+  const { forwarders, addForwarder } = useForwarders();
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -37,10 +37,14 @@ export function ForwarderModal({ isOpen, onClose, onAdd, forwarders, onSelect }:
       return;
     }
     
-    onAdd(formData);
+    const newForwarder = addForwarder(formData);
+    onSelect(newForwarder);
+    
+    // Reset form
     setFormData({ name: '', email: '', phone: '', company: '', address: '' });
     setErrors({});
     setShowAddForm(false);
+    onClose();
   };
 
   const handleSelect = (forwarder: Forwarder) => {

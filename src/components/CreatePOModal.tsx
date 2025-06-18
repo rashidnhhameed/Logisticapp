@@ -32,19 +32,6 @@ export function CreatePOModal({ isOpen, onClose, onCreate }: CreatePOModalProps)
   ]);
   const [showSupplierModal, setShowSupplierModal] = useState(false);
 
-  // Mock suppliers data
-  const [suppliers, setSuppliers] = useState<Supplier[]>([
-    {
-      id: '1',
-      name: 'TechCorp Manufacturing',
-      email: 'orders@techcorp.com',
-      phone: '+86 138 0013 8000',
-      company: 'TechCorp Ltd.',
-      address: 'Shenzhen, Guangdong, China',
-      contactPerson: 'Li Wei'
-    }
-  ]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedSupplier) {
@@ -121,13 +108,8 @@ export function CreatePOModal({ isOpen, onClose, onCreate }: CreatePOModalProps)
     setItems(updatedItems);
   };
 
-  const addSupplier = (supplierData: Omit<Supplier, 'id'>) => {
-    const newSupplier: Supplier = {
-      ...supplierData,
-      id: Date.now().toString()
-    };
-    setSuppliers([...suppliers, newSupplier]);
-    setSelectedSupplier(newSupplier);
+  const handleSupplierSelect = (supplier: Supplier) => {
+    setSelectedSupplier(supplier);
   };
 
   const totalAmount = items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
@@ -429,9 +411,7 @@ export function CreatePOModal({ isOpen, onClose, onCreate }: CreatePOModalProps)
       <SupplierModal
         isOpen={showSupplierModal}
         onClose={() => setShowSupplierModal(false)}
-        onAdd={addSupplier}
-        suppliers={suppliers}
-        onSelect={setSelectedSupplier}
+        onSelect={handleSupplierSelect}
       />
     </>
   );

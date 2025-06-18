@@ -30,19 +30,6 @@ export function CreateRFQModal({ isOpen, onClose, onCreate }: CreateRFQModalProp
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
   const [showSupplierModal, setShowSupplierModal] = useState(false);
 
-  // Mock suppliers data (in real app, this would come from a store/API)
-  const [suppliers, setSuppliers] = useState<Supplier[]>([
-    {
-      id: '1',
-      name: 'TechCorp Manufacturing',
-      email: 'orders@techcorp.com',
-      phone: '+86 138 0013 8000',
-      company: 'TechCorp Ltd.',
-      address: 'Shenzhen, Guangdong, China',
-      contactPerson: 'Li Wei'
-    }
-  ]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onCreate({
@@ -64,13 +51,8 @@ export function CreateRFQModal({ isOpen, onClose, onCreate }: CreateRFQModalProp
     onClose();
   };
 
-  const addSupplier = (supplierData: Omit<Supplier, 'id'>) => {
-    const newSupplier: Supplier = {
-      ...supplierData,
-      id: Date.now().toString()
-    };
-    setSuppliers([...suppliers, newSupplier]);
-    setSelectedSupplier(newSupplier);
+  const handleSupplierSelect = (supplier: Supplier) => {
+    setSelectedSupplier(supplier);
   };
 
   if (!isOpen) return null;
@@ -250,9 +232,7 @@ export function CreateRFQModal({ isOpen, onClose, onCreate }: CreateRFQModalProp
       <SupplierModal
         isOpen={showSupplierModal}
         onClose={() => setShowSupplierModal(false)}
-        onAdd={addSupplier}
-        suppliers={suppliers}
-        onSelect={setSelectedSupplier}
+        onSelect={handleSupplierSelect}
       />
     </>
   );

@@ -21,26 +21,6 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
   const [selectedForwarder, setSelectedForwarder] = useState<Forwarder | null>(null);
   const [showForwarderModal, setShowForwarderModal] = useState(false);
 
-  // Initialize with some default data and maintain state properly
-  const [forwarders, setForwarders] = useState<Forwarder[]>([
-    {
-      id: '1',
-      name: 'Ahmed Al-Rashid',
-      email: 'ahmed@globalfreight.ae',
-      phone: '+971 50 123 4567',
-      company: 'Global Freight Solutions',
-      address: 'Dubai Logistics City, Dubai, UAE'
-    },
-    {
-      id: '2',
-      name: 'Sarah Johnson',
-      email: 'sarah@fastlogistics.ae',
-      phone: '+971 55 987 6543',
-      company: 'Fast Logistics LLC',
-      address: 'Jebel Ali Free Zone, Dubai, UAE'
-    }
-  ]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedForwarder) {
@@ -72,21 +52,9 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
     onClose();
   };
 
-  const addForwarder = (forwarderData: Omit<Forwarder, 'id'>) => {
-    const newForwarder: Forwarder = {
-      ...forwarderData,
-      id: Date.now().toString()
-    };
-    console.log('Adding new forwarder:', newForwarder); // Debug log
-    setForwarders(prev => [...prev, newForwarder]);
-    setSelectedForwarder(newForwarder);
-    setShowForwarderModal(false);
-  };
-
   const handleForwarderSelect = (forwarder: Forwarder) => {
     console.log('Selecting forwarder:', forwarder); // Debug log
     setSelectedForwarder(forwarder);
-    setShowForwarderModal(false);
   };
 
   if (!isOpen) return null;
@@ -228,8 +196,6 @@ export function AddQuoteModal({ isOpen, onClose, onAdd }: AddQuoteModalProps) {
       <ForwarderModal
         isOpen={showForwarderModal}
         onClose={() => setShowForwarderModal(false)}
-        onAdd={addForwarder}
-        forwarders={forwarders}
         onSelect={handleForwarderSelect}
       />
     </>
